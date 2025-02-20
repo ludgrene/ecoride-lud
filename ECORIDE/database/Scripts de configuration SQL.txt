@@ -1,0 +1,70 @@
+CREATE TABLE reservations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    utilisateur_id INT NOT NULL,
+    trajet_id INT NOT NULL,
+    date_reservation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id) ON DELETE CASCADE,
+    FOREIGN KEY (trajet_id) REFERENCES trajets(id) ON DELETE CASCADE
+);
+
+//table des avis 
+CREATE TABLE avis (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    utilisateur_id INT NOT NULL,
+    chauffeur_id INT NOT NULL,
+    trajet_id INT NOT NULL,
+    note INT CHECK (note BETWEEN 1 AND 5),
+    commentaire TEXT,
+    date_avis TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id) ON DELETE CASCADE,
+    FOREIGN KEY (chauffeur_id) REFERENCES utilisateurs(id) ON DELETE CASCADE,
+    FOREIGN KEY (trajet_id) REFERENCES trajets(id) ON DELETE CASCADE
+);
+
+ALTER TABLE trajets 
+ADD CONSTRAINT fk_conducteur 
+FOREIGN KEY (conducteur_id) REFERENCES utilisateurs(id) 
+ON DELETE CASCADE;
+
+//voiture
+CREATE TABLE voiture (
+    voiture_id INT AUTO_INCREMENT PRIMARY KEY,
+    utilisateur_id INT NOT NULL,
+    modele VARCHAR(50) NOT NULL,
+    immatriculation VARCHAR(15) UNIQUE NOT NULL,
+    energie VARCHAR(20) NOT NULL CHECK (energie IN ('Essence', 'Diesel', 'Électrique', 'Hybride')),
+    couleur VARCHAR(50),
+    date_premiere_immatriculation DATE,
+    FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id) ON DELETE CASCADE
+);
+
+
+// rôle 
+CREATE TABLE role (
+    role_id INT AUTO_INCREMENT PRIMARY KEY,
+    libelle VARCHAR(50) NOT NULL UNIQUE
+);
+
+//parametre 
+CREATE TABLE parametre (
+    parametre_id INT AUTO_INCREMENT PRIMARY KEY,
+    id_configuration INT NOT NULL,
+    propriete VARCHAR(50) NOT NULL,
+    valeur VARCHAR(50) NOT NULL,
+    FOREIGN KEY (id_configuration) REFERENCES configuration(id_configuration) ON DELETE CASCADE
+);
+
+//
+ALTER TABLE utilisateurs ADD COLUMN role_id INT DEFAULT 3;
+ALTER TABLE utilisateurs ADD FOREIGN KEY (role_id) REFERENCES role(role_id) ON DELETE SET DEFAULT;
+
+//
+INSERT INTO configuration VALUES (1);
+
+INSERT INTO parametre (id_configuration, propriete, valeur) 
+VALUES 
+(1, 'Max réservations par jour', '5'),
+(1, 'Validation automatique des avis', 'oui');
+
+//
+INSERT INTO role (libelle) VALUES ('Administrateur'), ('Employé'), ('Passager'), ('Chauffeur');
