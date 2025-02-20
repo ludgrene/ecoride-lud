@@ -22,4 +22,4 @@ jobs:
           local-dir: ./
           server-dir: /www/
           protocol: ftps
-          passive: true  # Force le mode passif
+          security: loose  # Autorise un FTPS plus flexible
