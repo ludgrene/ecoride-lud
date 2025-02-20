@@ -21,5 +21,4 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
           server-dir: /www/
-          protocol: ftps
-          security: loose  # Autorise un FTPS plus flexible
+          protocol: ftp  # Passage au mode FTP normal
