@@ -21,5 +21,5 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
           server-dir: /www/
-          protocol: ftps
-          security: explicit  # Active un FTPS explicite
+          protocol: ftps  # Connexion sécurisée FTPS
+          security: loose  # Autorise une connexion FTPS plus flexible
