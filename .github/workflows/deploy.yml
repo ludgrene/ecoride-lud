@@ -16,10 +16,12 @@ jobs:
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: ftp-biawa.alwaysdata.net  
+          username: ${{ secrets.FTP_USERNAME }}  
+          password: ${{ secrets.FTP_PASSWORD }}  
           local-dir: ./
-          server-dir: /www/
-          protocol: ftps  # Connexion sécurisée FTPS
-          security: loose  # Autorise une connexion FTPS plus flexible
+          server-dir: /www/  
+          protocol: ftps  
+          security: loose  
+          port: 21  
+          log-level: verbose  
