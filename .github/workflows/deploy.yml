@@ -20,8 +20,15 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
-          server-dir: /www/  # Assure-toi que ce répertoire est bon !
+          server-dir: /www/
           protocol: ftps
           security: loose
           port: 21
           log-level: verbose
+          state-name: ".ftp-deploy-sync-state.json"  # Garde un état pour ne pas re-téléverser tout
+          exclude: |
+            **/.git*
+            **/node_modules/**
+            **/vendor/**  # Évite de recharger Composer
+            **/tests/**
+          dangerous-clean-slate: false  # Empêche une suppression massive si un problème survient
