@@ -16,19 +16,10 @@ jobs:
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: ftp-biawa.alwaysdata.net
+          server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp  # Teste FTP d'abord, puis FTPS si ça marche
           local-dir: ./
           server-dir: /www/
-          protocol: ftps
-          security: loose
-          port: 21
-          log-level: verbose
-          state-name: ".ftp-deploy-sync-state.json"  # Garde un état pour ne pas re-téléverser tout
-          exclude: |
-            **/.git*
-            **/node_modules/**
-            **/vendor/**  # Évite de recharger Composer
-            **/tests/**
-          dangerous-clean-slate: false  # Empêche une suppression massive si un problème survient
+          security: loose # Essaye aussi "strict" si erreur
